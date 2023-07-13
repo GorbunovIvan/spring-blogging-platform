@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Table(name = "comments")
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
-@EqualsAndHashCode(exclude = { "id" })
-@ToString
+@EqualsAndHashCode(of = { "post", "user", "createdAt", "content" })
+@ToString(of = { "id", "post", "user", "createdAt", "content" })
 public class Comment {
 
     @Id

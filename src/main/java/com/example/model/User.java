@@ -11,8 +11,8 @@ import java.util.Set;
 @Table(name = "users")
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
-@EqualsAndHashCode(exclude = { "id" })
-@ToString
+@EqualsAndHashCode(of = { "name", "createdAt" })
+@ToString(of = { "id", "name", "createdAt" })
 public class User {
 
     @Id
@@ -21,9 +21,6 @@ public class User {
 
     @Column(name = "name", nullable = false, length = 99)
     private String name;
-
-    @Column(name = "description", nullable = false, length = 999)
-    private String description;
 
     @Column(name = "created_at")
     private LocalDate createdAt;

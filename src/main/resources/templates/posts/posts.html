@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+</head>
+<body>
+    <div>
+        <h4>Posts</h4>
+        <div th:each="post : ${posts}">
+            <div>
+                <span th:text="${post.getCreatedAt()}">date</span>
+                <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}">title</a>
+                <p th:text="${post.getContentShortened()}">content</p>
+            </div>
+        </div>
+        <hr/>
+        <div>
+            <form method="POST" th:action="@{/posts}" th:object="${newPost}">
+
+                <label for="title">Title</label>
+                <input id="title" type="text" th:field="*{title}"/>
+                <br/>
+
+                <label for="content">Content</label>
+                <textarea id="content" th:field="*{content}">content</textarea>
+                <br/>
+                <br/>
+
+                <input type="submit" value="Add new post"/>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

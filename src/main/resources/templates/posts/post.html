@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'post ' + post.getTitle()}">Post</title>
+</head>
+<body>
+    <div>
+        <h4 th:text="${'Post ' + post.getTitle()}">title</h4>
+        <p th:text="${post.getContentShortened()}">content</p>
+        Posted at <span th:text="${post.getCreatedAt()}">date</span>
+        <hr/>
+        <a th:href="@{/posts/{id}/edit(id=${post.getId()})}">Edit</a>
+        <br/>
+        <br/>
+        <div>
+            <form method="POST" th:action="@{/posts/{id}(id=${post.getId()})}">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete post"/>
+            </form>
+        </div>
+        <hr/>
+        <div th:each="comment : ${post.getComments()}">
+            <div>
+                at <span th:text="${post.getCreatedAt()}">date</span>
+                <span th:text="${comment.getContent()}">content</span>
+                by <a th:href="@{/users/{id}(id=${comment.getUser().getId()})}" th:text="${comment.getUser().getName()}">user</a>
+                <br/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

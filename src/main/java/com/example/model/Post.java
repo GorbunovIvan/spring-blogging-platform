@@ -9,10 +9,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "posts")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
-@EqualsAndHashCode(exclude = { "id" })
-@ToString
+@EqualsAndHashCode(of = { "title", "content", "createdAt", "user" })
+@ToString(of = { "id", "title", "content", "createdAt", "user", "likes" })
 public class Post {
 
     @Id
@@ -46,7 +46,15 @@ public class Post {
         var now = LocalDateTime.now();
         if (createdAt == null) {
             createdAt = now;
+            likes = 0;
         }
         updatedAt = now;
+    }
+
+    public String getContentShortened() {
+        if (getContent().length() <= 200) {
+            return getContent();
+        }
+        return getContent().substring(200) + "...";
     }
 }

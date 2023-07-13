@@ -19,6 +19,10 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public List<Post> getAllByUserId(Long userId) {
+        return postRepository.findAllByUserId(userId);
+    }
+
     public Post getById(Long id) {
         return postRepository.findById(id)
                 .orElse(null);
@@ -30,7 +34,7 @@ public class PostService {
     }
 
     public Post create(Post post) {
-        return postRepository.save(post);
+        return postRepository.saveWithDetached(post);
     }
 
     @Transactional

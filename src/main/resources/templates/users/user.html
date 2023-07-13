@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'user ' + user.getName()()}">User</title>
+</head>
+<body>
+    <div>
+        <h4 th:text="${'User ' + user.getName()}">name</h4>
+        <hr/>
+        <p>Posts:</p>
+        <div th:each="post : ${user.getPosts()}">
+            <div>
+                <span th:text="${post.getCreatedAt()}">date</span>
+                <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}">title</a>
+                <p th:text="${post.getContentShortened()}">content</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
