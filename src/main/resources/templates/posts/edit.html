@@ -6,18 +6,20 @@
 </head>
 <body>
     <div>
+
         <h4 th:text="${'Editing post ' + post.getTitle()}">title</h4>
+
         <div>
             <form method="POST" th:action="@{/posts/{id}(id=${post.getId()})}" th:object="${post}">
 
                 <input type="hidden" name="_method" value="PATCH">
 
                 <label for="title">Title</label>
-                <input id="title" type="text" th:field="*{title}"/>
+                <input id="title" type="text" maxlength="99" th:field="*{title}"/>
                 <br/>
 
                 <label for="content">Content</label>
-                <textarea id="content" th:field="*{content}">content</textarea>
+                <textarea id="content" maxlength="999" th:field="*{content}">content</textarea>
                 <br/>
                 <br/>
 
@@ -25,6 +27,7 @@
 
             </form>
         </div>
+
     </div>
 </body>
 </html>

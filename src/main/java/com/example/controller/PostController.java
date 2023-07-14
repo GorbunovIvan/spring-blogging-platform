@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.model.LikeOfPost;
 import com.example.model.Post;
 import com.example.model.PostDto;
 import com.example.service.PostService;
@@ -50,10 +51,29 @@ public class PostController {
 
     @PatchMapping("/{id}")
     public String update(@PathVariable Long id, @ModelAttribute PostDto postDto) {
+
         Post post = postService.getById(id);
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
+
         postService.update(id, post);
+
+        return "redirect:/posts/" + id;
+    }
+
+    @PatchMapping("/{id}/add-like")
+    public String likePost(@PathVariable Long id) {
+
+        Post post = postService.getByIdWithLikes(id);
+
+        var like = LikeOfPost.builder()
+                .user(usersUtil.getCurrentUser())
+                .post(post)
+                .build();
+
+        post.addLike(like);
+        postService.update(id, post);
+
         return "redirect:/posts/" + id;
     }
 

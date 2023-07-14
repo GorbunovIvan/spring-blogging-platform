@@ -6,6 +6,7 @@
 </head>
 <body>
     <div>
+
         <h4>Posts</h4>
         <div th:each="post : ${posts}">
             <div>
@@ -15,15 +16,16 @@
             </div>
         </div>
         <hr/>
+
         <div>
             <form method="POST" th:action="@{/posts}" th:object="${newPost}">
 
                 <label for="title">Title</label>
-                <input id="title" type="text" th:field="*{title}"/>
+                <input id="title" type="text" maxlength="99" th:field="*{title}"/>
                 <br/>
 
                 <label for="content">Content</label>
-                <textarea id="content" th:field="*{content}">content</textarea>
+                <textarea id="content" maxlength="999" th:field="*{content}">content</textarea>
                 <br/>
                 <br/>
 
@@ -31,6 +33,7 @@
 
             </form>
         </div>
+
     </div>
 </body>
 </html>

@@ -33,8 +33,13 @@ public class PostService {
                 .orElse(null);
     }
 
+    public Post getByIdWithLikes(Long id) {
+        return postRepository.getByIdWithLikes(id)
+                .orElse(null);
+    }
+
     public Post create(Post post) {
-        return postRepository.saveWithDetached(post);
+        return postRepository.save(post);
     }
 
     @Transactional

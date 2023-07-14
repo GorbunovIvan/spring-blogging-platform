@@ -6,13 +6,22 @@
 </head>
 <body>
     <div>
+
         <h4 th:text="${'Post ' + post.getTitle()}">title</h4>
-        <p th:text="${post.getContentShortened()}">content</p>
+        <p th:text="${post.getContent()}">content</p>
         Posted at <span th:text="${post.getCreatedAt()}">date</span>
+        <form method="POST" th:action="@{/posts/{id}/add-like(id=${post.getId()})}">
+            <input type="hidden" name="_method" value="PATCH"/>
+            <label for="likes">Likes</label>
+            <input id="likes" type="text" style="border:none; background: white; max-width: 20px" disabled th:value="${post.getNumberOfLikes()}"/>
+            <input type="submit" value="Like this post"/>
+        </form>
         <hr/>
+
         <a th:href="@{/posts/{id}/edit(id=${post.getId()})}">Edit</a>
         <br/>
         <br/>
+
         <div>
             <form method="POST" th:action="@{/posts/{id}(id=${post.getId()})}">
                 <input type="hidden" name="_method" value="DELETE">
@@ -20,14 +29,25 @@
             </form>
         </div>
         <hr/>
-        <div th:each="comment : ${post.getComments()}">
+
+        <div>
+            <p>Comments:</p>
+            <div th:each="comment : ${post.getComments()}">
+                <div>
+                    at <span th:text="${post.getCreatedAt()}">date</span>
+                    <span th:text="${comment.getContent()}">content</span>
+                    by <a th:href="@{/users/{id}(id=${comment.getUser().getId()})}" th:text="${comment.getUser().getName()}">user</a>
+                    <br/>
+                </div>
+            </div>
             <div>
-                at <span th:text="${post.getCreatedAt()}">date</span>
-                <span th:text="${comment.getContent()}">content</span>
-                by <a th:href="@{/users/{id}(id=${comment.getUser().getId()})}" th:text="${comment.getUser().getName()}">user</a>
-                <br/>
+                <form method="POST" th:action="@{/comments/{id}(id=${post.getId()})}">
+                    <textarea id="content" maxlength="256" name="content"></textarea>
+                    <input type="submit" value="Add new comment"/>
+                </form>
             </div>
         </div>
+
     </div>
 </body>
 </html>

@@ -25,10 +25,10 @@ public class User {
     @Column(name = "created_at")
     private LocalDate createdAt;
 
-    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.REFRESH })
     private Set<Post> posts = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.REFRESH })
     private Set<Comment> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)

@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${'user ' + user.getName()()}">User</title>
+    <title th:text="${'user ' + user.getName()}">User</title>
 </head>
 <body>
     <div>
+
         <h4 th:text="${'User ' + user.getName()}">name</h4>
         <hr/>
+
         <p>Posts:</p>
         <div th:each="post : ${user.getPosts()}">
             <div>
@@ -16,6 +18,7 @@
                 <p th:text="${post.getContentShortened()}">content</p>
             </div>
         </div>
+
     </div>
 </body>
 </html>

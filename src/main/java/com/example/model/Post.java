@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
 @EqualsAndHashCode(of = { "title", "content", "createdAt", "user" })
-@ToString(of = { "id", "title", "content", "createdAt", "user", "likes" })
+@ToString(of = { "id", "title", "content", "createdAt", "user" })
 public class Post {
 
     @Id
@@ -31,30 +31,43 @@ public class Post {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "likes")
-    private Integer likes;
-
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "user", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "post", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @OneToMany(mappedBy = "post", cascade = { CascadeType.REFRESH })
     private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "post", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    private Set<LikeOfPost> likes = new HashSet<>();
 
     @PrePersist
     public void prePersist() {
         var now = LocalDateTime.now();
         if (createdAt == null) {
             createdAt = now;
-            likes = 0;
         }
         updatedAt = now;
     }
 
+    public void addLike(LikeOfPost like) {
+        if (like.getPost() == null) {
+            like.setPost(this);
+        } else if (!like.getPost().getId().equals(getId())) {
+            throw new RuntimeException("Wrong post of like during liking");
+        }
+        likes.add(like);
+    }
+
+    public int getNumberOfLikes() {
+        return getLikes().size();
+    }
+
     public String getContentShortened() {
-        if (getContent().length() <= 200) {
+        int maxSize = 200;
+        if (getContent().length() <= maxSize) {
             return getContent();
         }
-        return getContent().substring(200) + "...";
+        return getContent().substring(0, maxSize-3) + "...";
     }
 }
