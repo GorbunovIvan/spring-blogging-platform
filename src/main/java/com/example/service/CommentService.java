@@ -20,11 +20,11 @@ public class CommentService {
     }
 
     public List<Comment> getAllByUserId(Long userId) {
-        return commentRepository.findAllByUserId(userId);
+        return commentRepository.findAllByUserIdOrderByCreatedAt(userId);
     }
 
     public List<Comment> getAllByPostId(Long postId) {
-        return commentRepository.findAllByPostId(postId);
+        return commentRepository.findAllByPostIdOrderByCreatedAt(postId);
     }
 
     public Comment getById(Long id) {

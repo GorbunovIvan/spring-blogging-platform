@@ -9,10 +9,8 @@
 
         <h4>Users</h4>
         <div th:each="user : ${users}">
-            <div>
-                <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getName()}">user</a>
-                <br/>
-            </div>
+            <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getName()}">user</a>
+            <br/>
         </div>
 
     </div>

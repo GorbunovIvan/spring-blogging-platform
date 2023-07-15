@@ -11,8 +11,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("FROM User user " +
             "LEFT JOIN FETCH user.posts " +
             "LEFT JOIN FETCH user.comments " +
-            "LEFT JOIN FETCH user.subscribersRecords " +
+            "LEFT JOIN FETCH user.subscribers " +
             "LEFT JOIN FETCH user.subscriptions " +
-            "WHERE user.id = :id")
+            "WHERE user.id = :id ")
     Optional<User> findByIdEagerly(Long id);
+
+    @Query("FROM User user " +
+            "LEFT JOIN FETCH user.subscribers " +
+            "LEFT JOIN FETCH user.subscriptions " +
+            "WHERE user.id = :id ")
+    Optional<User> getByIdWithSubscriptions(Long id);
 }

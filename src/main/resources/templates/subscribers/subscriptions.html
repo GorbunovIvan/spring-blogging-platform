@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'Subscriptions of ' + user.getName()}">Subscriptions of user</title>
+</head>
+<body>
+<div>
+
+    <h4 th:text="${'Subscriptions of ' + user.getName()}">Subscriptions of user</h4>
+    <div th:each="subscriber : ${users}">
+        <a th:href="@{/users/{id}(id=${subscriber.getId()})}" th:text="${subscriber.getName()}">subscriber</a>
+        <br/>
+    </div>
+
+</div>
+</body>
+</html>

@@ -6,23 +6,22 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
+@IdClass(SubscriptionId.class)
 @Table(name = "subscriptions")
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Getter @Setter
-@EqualsAndHashCode(exclude = { "id" })
+@EqualsAndHashCode(of = { "publisher", "subscriber" })
 @ToString
 public class Subscription {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "publisher_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "publisher_id")
     private User publisher;
 
-    @ManyToOne
-    @JoinColumn(name = "subscriber_id", nullable = false)
+    @Id
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "subscriber_id")
     private User subscriber;
 
     @Column(name = "created_at")

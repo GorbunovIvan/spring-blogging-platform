@@ -4,12 +4,11 @@ import com.example.model.User;
 import com.example.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@Getter @Setter
+@Getter
 public class UsersUtil {
 
     private UserService userService;
@@ -23,6 +22,13 @@ public class UsersUtil {
 
     @PostConstruct
     public void init() {
-        this.currentUser = userService.getAll().stream().findFirst().orElse(null);
+//        this.currentUser = userService.getByIdEagerly(1L);
+        this.currentUser = userService.getByIdEagerly(1L);
+    }
+
+    public User getCurrentUser() {
+//        this.currentUser = userService.getByIdEagerly(1L);
+//        return userService.getByIdEagerly(2L);
+        return this.currentUser;
     }
 }

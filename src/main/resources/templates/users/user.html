@@ -7,15 +7,60 @@
 <body>
     <div>
 
-        <h4 th:text="${'User ' + user.getName()}">name</h4>
-        <hr/>
+        <div>
+            <h4 th:text="${'User ' + user.getName()}">name</h4>
+            <div th:if="${currentUser != null && !currentUser.equals(user)}">
+                <div th:if="${!user.hasSubscriber(currentUser)}">
+                    <form method="POST" th:action="@{/users/{id}/subscribe(id=${user.getId()})}">
+                        <input type="submit" value="Subscribe"/>
+                    </form>
+                </div>
+                <div th:if="${user.hasSubscriber(currentUser)}">
+                    <form method="POST" th:action="@{/users/{id}/unsubscribe(id=${user.getId()})}">
+                        <input type="submit" value="Unsubscribe"/>
+                    </form>
+                </div>
+            </div>
+            <hr/>
+        </div>
+
+        <div>
+            <div th:if="${currentUser != null && currentUser.equals(user)}">
+                <a th:href="@{/subscriptions/to-user/{id}(id=${user.getId()})}">Your subscribers</a><br/>
+                <a th:href="@{/subscriptions/of-user/{id}(id=${user.getId()})}">Your subscriptions</a>
+            </div>
+            <div th:if="${currentUser != null && !currentUser.equals(user)}">
+                <a th:href="@{/subscriptions/to-user/{id}(id=${user.getId()})}">Subscribers</a><br/>
+                <a th:href="@{/subscriptions/of-user/{id}(id=${user.getId()})}" th:text="${'Subscriptions of ' + user.getName()}">Subscriptions of user</a>
+            </div>
+            <hr/>
+        </div>
+
+        <div th:if="${currentUser != null && currentUser.equals(user)}">
+            <form method="POST" th:action="@{/posts}" th:object="${newPost}">
+
+                <label for="title">Title</label>
+                <input id="title" type="text" maxlength="99" th:field="*{title}"/>
+                <br/>
+
+                <label for="content">Content</label>
+                <textarea id="content" maxlength="999" th:field="*{content}">content</textarea>
+                <br/>
+                <br/>
+
+                <input type="submit" value="Add new post"/>
+
+            </form>
+        </div>
 
         <p>Posts:</p>
+        <hr/>
         <div th:each="post : ${user.getPosts()}">
             <div>
                 <span th:text="${post.getCreatedAt()}">date</span>
                 <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}">title</a>
                 <p th:text="${post.getContentShortened()}">content</p>
+                <hr/>
             </div>
         </div>
 

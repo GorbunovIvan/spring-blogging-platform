@@ -8,30 +8,21 @@
     <div>
 
         <h4>Posts</h4>
+
+        <div th:if="${currentUser != null}">
+            <a th:href="@{/users/{id}(id=${currentUser.getId()})}">Add new post</a>
+            <hr/>
+        </div>
+
         <div th:each="post : ${posts}">
             <div>
                 <span th:text="${post.getCreatedAt()}">date</span>
                 <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}">title</a>
+                by
+                <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getName()}">user's name</a>
                 <p th:text="${post.getContentShortened()}">content</p>
+                <hr/>
             </div>
-        </div>
-        <hr/>
-
-        <div>
-            <form method="POST" th:action="@{/posts}" th:object="${newPost}">
-
-                <label for="title">Title</label>
-                <input id="title" type="text" maxlength="99" th:field="*{title}"/>
-                <br/>
-
-                <label for="content">Content</label>
-                <textarea id="content" maxlength="999" th:field="*{content}">content</textarea>
-                <br/>
-                <br/>
-
-                <input type="submit" value="Add new post"/>
-
-            </form>
         </div>
 
     </div>

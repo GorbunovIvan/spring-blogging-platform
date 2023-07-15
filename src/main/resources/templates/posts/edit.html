@@ -9,7 +9,7 @@
 
         <h4 th:text="${'Editing post ' + post.getTitle()}">title</h4>
 
-        <div>
+        <div th:if="${currentUser != null && currentUser.equals(post.getUser())}">
             <form method="POST" th:action="@{/posts/{id}(id=${post.getId()})}" th:object="${post}">
 
                 <input type="hidden" name="_method" value="PATCH">

@@ -29,12 +29,11 @@ public class Comment {
     private User user;
 
     @Column(name = "created_at")
+    @Builder.ObtainVia(method = "computeCreatedAt")
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
+    public void init() {
+        this.createdAt = LocalDateTime.now();
     }
 }

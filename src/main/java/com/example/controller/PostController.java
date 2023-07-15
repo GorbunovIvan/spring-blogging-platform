@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.LikeOfPost;
 import com.example.model.Post;
 import com.example.model.PostDto;
+import com.example.model.User;
 import com.example.service.PostService;
 import com.example.utils.security.UsersUtil;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,13 @@ public class PostController {
 
     @PostMapping
     public String create(@ModelAttribute Post post) {
-        post.setUser(usersUtil.getCurrentUser());
+        var currentUser = usersUtil.getCurrentUser();
+        if (currentUser == null) {
+            throw new RuntimeException("You are not authenticated");
+        }
+        post.setUser(currentUser);
         postService.create(post);
-        return "redirect:/posts";
+        return "redirect:/users/" + currentUser.getId();
     }
 
     @GetMapping("/{id}/edit")
@@ -79,12 +84,18 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable Long id) {
+        var post = postService.getById(id);
         postService.deleteById(id);
-        return "redirect:/posts";
+        return "redirect:/users/" + post.getUser().getId();
     }
 
     @ModelAttribute("newPost")
     public Post newPost() {
         return Post.builder().build();
+    }
+
+    @ModelAttribute("currentUser")
+    public User currentUser() {
+        return usersUtil.getCurrentUser();
     }
 }
