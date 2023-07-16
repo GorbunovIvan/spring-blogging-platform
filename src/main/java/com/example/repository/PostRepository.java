@@ -18,7 +18,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("FROM Post post " +
             "LEFT JOIN FETCH post.likes likes " +
             "WHERE post.id = :id ")
-    Optional<Post> getByIdWithLikes(Long id);
+    Optional<Post> findByIdWithLikes(Long id);
 
     List<Post> findAllByUserId(Long userId);
 }

@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public User getByIdWithSubscriptions(Long id) {
-        return userRepository.getByIdWithSubscriptions(id)
+        return userRepository.findByIdWithSubscriptions(id)
                 .orElse(null);
     }
 

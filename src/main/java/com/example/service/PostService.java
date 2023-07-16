@@ -34,7 +34,7 @@ public class PostService {
     }
 
     public Post getByIdWithLikes(Long id) {
-        return postRepository.getByIdWithLikes(id)
+        return postRepository.findByIdWithLikes(id)
                 .orElse(null);
     }
 

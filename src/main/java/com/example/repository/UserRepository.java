@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "LEFT JOIN FETCH user.subscribers " +
             "LEFT JOIN FETCH user.subscriptions " +
             "WHERE user.id = :id ")
-    Optional<User> getByIdWithSubscriptions(Long id);
+    Optional<User> findByIdWithSubscriptions(Long id);
 }
