@@ -7,7 +7,9 @@
 <body>
 <div>
 
-    <h4 th:text="${'Subscriptions of ' + user.getName()}">Subscriptions of user</h4>
+    <div th:include="fragments/commonMenu :: commonMenu"></div>
+
+    <h4>Subscriptions of <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getName()}">user</a></h4>
     <div th:each="subscriber : ${users}">
         <a th:href="@{/users/{id}(id=${subscriber.getId()})}" th:text="${subscriber.getName()}">subscriber</a>
         <br/>

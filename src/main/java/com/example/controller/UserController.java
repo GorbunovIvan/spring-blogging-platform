@@ -31,6 +31,15 @@ public class UserController {
         return "/users/user";
     }
 
+    @GetMapping("/current-user")
+    public String currentUserPage() {
+        var currentUser = usersUtil.getCurrentUser();
+        if (currentUser == null) {
+            throw new RuntimeException("You are not authenticated");
+        }
+        return "redirect:/users/" + currentUser.getId();
+    }
+
     @PostMapping("/{id}/subscribe")
     public String subscribe(@PathVariable Long id) {
 

@@ -7,6 +7,8 @@
 <body>
     <div>
 
+        <div th:include="fragments/commonMenu :: commonMenu"></div>
+
         <h4 th:text="${'Post ' + post.getTitle()}">title</h4>
         <p th:text="${post.getContent()}">content</p>
         posted at <span th:text="${post.getCreatedAt()}">date</span>

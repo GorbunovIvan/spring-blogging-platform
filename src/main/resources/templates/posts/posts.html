@@ -7,6 +7,8 @@
 <body>
     <div>
 
+        <div th:include="fragments/commonMenu :: commonMenu"></div>
+
         <h4>Posts</h4>
 
         <div th:if="${currentUser != null}">
