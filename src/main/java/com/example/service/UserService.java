@@ -29,6 +29,11 @@ public class UserService {
                 .orElse(null);
     }
 
+    public User getByIdWithSubscriptions(Long id) {
+        return userRepository.getByIdWithSubscriptions(id)
+                .orElse(null);
+    }
+
     public User create(User user) {
         return userRepository.save(user);
     }

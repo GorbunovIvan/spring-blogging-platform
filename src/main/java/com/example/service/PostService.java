@@ -19,6 +19,10 @@ public class PostService {
         return postRepository.findAll();
     }
 
+    public List<Post> getAllByUserId(Long userId) {
+        return postRepository.findAllByUserId(userId);
+    }
+
     public Post getById(Long id) {
         return postRepository.findById(id)
                 .orElse(null);
@@ -26,6 +30,11 @@ public class PostService {
     
     public Post getByIdEagerly(Long id) {
         return postRepository.findByIdEagerly(id)
+                .orElse(null);
+    }
+
+    public Post getByIdWithLikes(Long id) {
+        return postRepository.getByIdWithLikes(id)
                 .orElse(null);
     }
 

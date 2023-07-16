@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+</head>
+<body>
+    <div>
+
+        <div th:include="fragments/commonMenu :: commonMenu"></div>
+
+        <h4>Posts</h4>
+
+        <div th:if="${currentUser != null}">
+            <a th:href="@{/users/{id}(id=${currentUser.getId()})}">Add new post</a>
+            <hr/>
+        </div>
+
+        <div th:each="post : ${posts}">
+            <div>
+                <span th:text="${post.getCreatedAt()}">date</span>
+                <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}">title</a>
+                by
+                <a th:href="@{/users/{id}(id=${post.getUser().getId()})}" th:text="${post.getUser().getName()}">user's name</a>
+                <p th:text="${post.getContentShortened()}">content</p>
+                <hr/>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+package com.example.utils.security;
+
+import com.example.model.User;
+import com.example.service.UserService;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+@Getter
+public class UsersUtil {
+
+    private UserService userService;
+
+    private User currentUser;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostConstruct
+    public void init() {
+//        this.currentUser = userService.getByIdEagerly(1L);
+        this.currentUser = userService.getByIdEagerly(1L);
+    }
+
+    public User getCurrentUser() {
+//        this.currentUser = userService.getByIdEagerly(1L);
+//        return userService.getByIdEagerly(2L);
+        return this.currentUser;
+    }
+}
