@@ -7,6 +7,7 @@ import com.example.model.User;
 import com.example.repository.CommentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -73,6 +74,8 @@ class CommentServiceTest {
         }
 
         newComment = Comment.builder().id(4L).content("new content comment").createdAt(LocalDateTime.now()).post(posts.get(0)).user(users.get(0)).build();
+
+        Mockito.reset(commentRepository);
 
         when(commentRepository.findAll()).thenReturn(comments);
         when(commentRepository.findAllByUserIdOrderByCreatedAt(-1L)).thenReturn(Collections.emptyList());

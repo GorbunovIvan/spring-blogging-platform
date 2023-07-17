@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/current-user")
     public String currentUserPage() {
-        var currentUser = usersUtil.getCurrentUser();
+        var currentUser = currentUser();
         if (currentUser == null) {
             throw new RuntimeException("You are not authenticated");
         }
@@ -44,7 +44,7 @@ public class UserController {
     public String subscribe(@PathVariable Long id) {
 
         var user = userService.getByIdWithSubscriptions(id);
-        var currentUser = usersUtil.getCurrentUser();
+        var currentUser = currentUser();
 
         if (user.equals(currentUser)) {
             throw new RuntimeException("You can not be subscribed to yourself");
@@ -61,7 +61,7 @@ public class UserController {
     public String unsubscribe(@PathVariable Long id) {
 
         var user = userService.getByIdWithSubscriptions(id);
-        var currentUser = usersUtil.getCurrentUser();
+        var currentUser = currentUser();
 
         if (user.hasSubscriber(currentUser)) {
             subscriptionService.delete(user, currentUser);

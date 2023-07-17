@@ -6,6 +6,7 @@ import com.example.model.User;
 import com.example.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -56,6 +57,8 @@ class PostServiceTest {
         }
 
         newPost = Post.builder().id(4L).title("new title post").content("new content post").createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).user(users.get(0)).build();
+
+        Mockito.reset(postRepository);
 
         when(postRepository.findAll()).thenReturn(posts);
         when(postRepository.findAllByUserId(-1L)).thenReturn(Collections.emptyList());

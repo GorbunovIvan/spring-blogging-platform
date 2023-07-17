@@ -5,6 +5,7 @@ import com.example.model.User;
 import com.example.repository.SubscriptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -59,6 +60,8 @@ class SubscriptionServiceTest {
         }
 
         newSubscription = Subscription.builder().publisher(users.get(2)).subscriber(users.get(0)).createdAt(LocalDateTime.now()).build();
+
+        Mockito.reset(subscriptionRepository);
 
         when(subscriptionRepository.save(newSubscription)).thenReturn(newSubscription);
         doNothing().when(subscriptionRepository).delete(any(Subscription.class));

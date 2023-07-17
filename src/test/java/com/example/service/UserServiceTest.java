@@ -5,6 +5,7 @@ import com.example.model.User;
 import com.example.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,6 +40,8 @@ class UserServiceTest {
         );
 
         newUser = User.builder().id(4L).name("new user test").build();
+
+        Mockito.reset(userRepository);
 
         when(userRepository.findAll()).thenReturn(users);
         when(userRepository.findById(-1L)).thenReturn(Optional.empty());

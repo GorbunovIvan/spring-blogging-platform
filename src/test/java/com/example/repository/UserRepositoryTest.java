@@ -31,14 +31,6 @@ class UserRepositoryTest {
                 userRepository.save(User.builder().name("2 user test").createdAt(LocalDateTime.now()).build()),
                 userRepository.save(User.builder().name("3 user test").createdAt(LocalDateTime.now()).build())
         );
-
-//        when(userRepository.findByIdEagerly(-1L)).thenReturn(Optional.empty());
-//        when(userRepository.getByIdWithSubscriptions(-1L)).thenReturn(Optional.empty());
-//
-//        for (var user : users) {
-//            when(userRepository.findByIdEagerly(user.getId())).thenReturn(Optional.of(user));
-//            when(userRepository.getByIdWithSubscriptions(user.getId())).thenReturn(Optional.of(user));
-//        }
     }
 
     @Test
