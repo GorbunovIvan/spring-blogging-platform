@@ -39,7 +39,7 @@ public class PostController {
 
     @PostMapping
     public String create(@ModelAttribute Post post) {
-        var currentUser = usersUtil.getCurrentUser();
+        var currentUser = currentUser();
         if (currentUser == null) {
             throw new RuntimeException("You are not authenticated");
         }
@@ -72,7 +72,7 @@ public class PostController {
         Post post = postService.getByIdWithLikes(id);
 
         var like = LikeOfPost.builder()
-                .user(usersUtil.getCurrentUser())
+                .user(currentUser())
                 .post(post)
                 .build();
 
