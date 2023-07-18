@@ -20,6 +20,10 @@ public class CommentController {
     @PostMapping("/{postId}")
     public String create(@PathVariable Long postId, @RequestParam String content) {
 
+        if (content.isEmpty()) {
+            return "redirect:/posts/" + postId;
+        }
+
         var comment = Comment.builder()
                 .post(postService.getById(postId))
                 .content(content)
@@ -36,6 +40,10 @@ public class CommentController {
 
         var comment = commentService.getById(commentId);
         long postId = comment.getPost().getId();
+
+        if (content.isEmpty()) {
+            return "redirect:/posts/" + postId;
+        }
 
         comment.setContent(content);
         commentService.update(commentId, comment);

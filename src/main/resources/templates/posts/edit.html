@@ -18,10 +18,12 @@
 
                 <label for="title">Title</label>
                 <input id="title" type="text" maxlength="99" th:field="*{title}"/>
+                <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error</div>
                 <br/>
 
                 <label for="content">Content</label>
                 <textarea id="content" maxlength="999" th:field="*{content}">content</textarea>
+                <div style="color:red" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Content error</div>
                 <br/>
                 <br/>
 

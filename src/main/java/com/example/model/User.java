@@ -1,6 +1,8 @@
 package com.example.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +21,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 99)
+    @Column(name = "name")
+    @NotNull(message = "name is empty")
+    @Size(min = 1, max = 99, message = "name should be in range 1 to 99 characters")
     private String name;
 
     @Column(name = "created_at")

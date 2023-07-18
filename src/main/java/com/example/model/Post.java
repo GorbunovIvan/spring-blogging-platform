@@ -1,6 +1,8 @@
 package com.example.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,10 +20,14 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 99)
+    @Column(name = "title")
+    @NotNull(message = "title is empty")
+    @Size(min = 1, max = 99, message = "title should be in range 1 to 99 characters")
     private String title;
 
-    @Column(name = "content", nullable = false, length = 999)
+    @Column(name = "content")
+    @NotNull(message = "content is empty")
+    @Size(min = 1, max = 999, message = "content should be in range 1 to 999 characters")
     private String content;
 
     @Column(name = "created_at")
@@ -31,7 +37,8 @@ public class Post {
     private LocalDateTime updatedAt;
 
     @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "user", nullable = false)
+    @JoinColumn(name = "user")
+    @NotNull(message = "user is empty")
     private User user;
 
     @OneToMany(mappedBy = "post", cascade = { CascadeType.ALL })

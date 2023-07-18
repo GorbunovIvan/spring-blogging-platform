@@ -6,9 +6,11 @@ import com.example.model.PostDto;
 import com.example.model.User;
 import com.example.service.PostService;
 import com.example.utils.security.UsersUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -38,13 +40,22 @@ public class PostController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute Post post) {
+    public String create(Model model, @ModelAttribute @Valid PostDto postDto, BindingResult bindingResult) {
+
         var currentUser = currentUser();
         if (currentUser == null) {
             throw new RuntimeException("You are not authenticated");
         }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("user", currentUser);
+            return "redirect:/users/" + currentUser.getId();
+        }
+
+        var post = postDto.toPost();
         post.setUser(currentUser);
         postService.create(post);
+
         return "redirect:/users/" + currentUser.getId();
     }
 
@@ -55,7 +66,12 @@ public class PostController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute PostDto postDto) {
+    public String update(@PathVariable Long id, Model model, @ModelAttribute @Valid PostDto postDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("post", postService.getById(id));
+            return "/posts/edit";
+        }
 
         Post post = postService.getById(id);
         post.setTitle(postDto.getTitle());
@@ -90,8 +106,8 @@ public class PostController {
     }
 
     @ModelAttribute("newPost")
-    public Post newPost() {
-        return Post.builder().build();
+    public PostDto newPost() {
+        return new PostDto();
     }
 
     @ModelAttribute("currentUser")
