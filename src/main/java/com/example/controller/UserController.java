@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.model.Post;
+import com.example.model.PostDto;
 import com.example.model.User;
 import com.example.service.SubscriptionService;
 import com.example.service.UserService;
@@ -71,8 +71,8 @@ public class UserController {
     }
 
     @ModelAttribute("newPost")
-    public Post newPost() {
-        return Post.builder().build();
+    public PostDto newPost() {
+        return new PostDto();
     }
 
     @ModelAttribute("currentUser")
