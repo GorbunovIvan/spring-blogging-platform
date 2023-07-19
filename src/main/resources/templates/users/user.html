@@ -26,12 +26,12 @@
             <hr/>
         </div>
 
-        <div>
-            <div th:if="${currentUser != null && currentUser.equals(user)}">
+        <div th:if="${currentUser != null}">
+            <div th:if="${currentUser.equals(user)}">
                 <a th:href="@{/subscriptions/to-user/{id}(id=${user.getId()})}">Your subscribers</a><br/>
                 <a th:href="@{/subscriptions/of-user/{id}(id=${user.getId()})}">Your subscriptions</a>
             </div>
-            <div th:if="${currentUser != null && !currentUser.equals(user)}">
+            <div th:if="${!currentUser.equals(user)}">
                 <a th:href="@{/subscriptions/to-user/{id}(id=${user.getId()})}">Subscribers</a><br/>
                 <a th:href="@{/subscriptions/of-user/{id}(id=${user.getId()})}" th:text="${'Subscriptions of ' + user.getName()}">Subscriptions of user</a>
             </div>

@@ -87,6 +87,10 @@ public class User implements UserDetails {
         return isSubscribedTo;
     }
 
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
     // Security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

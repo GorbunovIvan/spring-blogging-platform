@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.exception.EntityNotFoundException;
+import com.example.model.Role;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User create(User user) {
+        if (user.getRoles().isEmpty()) {
+            user.addRole(Role.USER);
+        }
         return userRepository.save(user);
     }
 
