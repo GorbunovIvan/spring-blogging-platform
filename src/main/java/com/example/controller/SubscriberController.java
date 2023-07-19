@@ -1,11 +1,14 @@
 package com.example.controller;
 
 import com.example.model.Subscription;
+import com.example.model.User;
 import com.example.service.UserService;
+import com.example.utils.security.UsersUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SubscriberController {
 
     private final UserService userService;
+    private final UsersUtil usersUtil;
 
     @GetMapping("/to-user/{userId}")
     public String getAllSubscribersToUser(@PathVariable Long userId, Model model) {
@@ -30,5 +34,10 @@ public class SubscriberController {
         model.addAttribute("user", user);
         model.addAttribute("users", user.getSubscriptions().stream().map(Subscription::getPublisher).toList());
         return "/subscribers/subscriptions";
+    }
+
+    @ModelAttribute("currentUser")
+    public User currentUser() {
+        return usersUtil.getCurrentUser();
     }
 }

@@ -2,9 +2,19 @@
 <html lang="en">
 <body>
 <div th:fragment="commonMenu">
-    <a href="/users/current-user">My page</a><span>&emsp;</span>
+    <a th:if="${currentUser != null}" href="/users/current-user">My page</a><span>&emsp;</span>
     <a href="/users">Users</a><span>&emsp;</span>
     <a href="/posts">Posts</a><span>&emsp;</span>
+    <div th:if="${currentUser == null}">
+        <br/>
+        <a href="/auth/login">Login</a> or
+        <a href="/auth/register">Register</a>
+    </div>
+    <div th:if="${currentUser != null}">
+        <form method="POST" action="/auth/logout">
+            <input type="submit" value="Log out"/>
+        </form>
+    </div>
     <hr/>
 </div>
 </body>

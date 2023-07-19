@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+</head>
+<body>
+<div>
+    <h4>Log in</h4>
+
+    <form method="POST" action="/auth/login">
+
+        <label for="username">Email</label>
+        <input id="username" type="text" name="username"/>
+        <br/>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password"/>
+        <br/>
+        <br/>
+
+        <input type="submit" value="Log in"/>
+
+    </form>
+
+    <p>Or you can <a href="/auth/register">register</a></p>
+
+</div>
+</body>
+</html>
