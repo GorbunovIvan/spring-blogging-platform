@@ -27,10 +27,22 @@ class UserRepositoryTest {
     void setUp() {
 
         users = List.of(
-                userRepository.save(User.builder().name("1 user test").createdAt(LocalDateTime.now()).build()),
-                userRepository.save(User.builder().name("2 user test").createdAt(LocalDateTime.now()).build()),
-                userRepository.save(User.builder().name("3 user test").createdAt(LocalDateTime.now()).build())
+                userRepository.save(User.builder().email("1user@mail.com").name("1 user test").password("1password").createdAt(LocalDateTime.now()).build()),
+                userRepository.save(User.builder().email("2user@mail.com").name("2 user test").password("2password").createdAt(LocalDateTime.now()).build()),
+                userRepository.save(User.builder().email("3user@mail.com").name("3 user test").password("3password").createdAt(LocalDateTime.now()).build())
         );
+    }
+
+    @Test
+    void testFindByEmail() {
+
+        for (var user : users) {
+            var userOpt = userRepository.findByEmail(user.getEmail());
+            assertTrue(userOpt.isPresent());
+            assertEquals(user, userOpt.get());
+        }
+
+        assertTrue(userRepository.findByEmail("none@mail.com").isEmpty());
     }
 
     @Test

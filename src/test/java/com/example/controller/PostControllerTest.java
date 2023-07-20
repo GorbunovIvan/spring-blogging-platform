@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ class PostControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private WebApplicationContext context;
+
     @MockBean
     private PostService postService;
     @MockBean
@@ -49,9 +54,14 @@ class PostControllerTest {
     @BeforeEach
     void setUp() {
 
+        // for security
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .build();
+
         users = List.of(
-                User.builder().id(1L).name("1 user test").createdAt(LocalDateTime.now()).build(),
-                User.builder().id(2L).name("2 user test").createdAt(LocalDateTime.now()).build()
+                User.builder().id(1L).email("1user@mail.com").name("1 user test").password("1password").createdAt(LocalDateTime.now()).build(),
+                User.builder().id(2L).email("2user@mail.com").name("2 user test").password("2password").createdAt(LocalDateTime.now()).build()
         );
 
         posts = List.of(

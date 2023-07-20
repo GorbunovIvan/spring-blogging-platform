@@ -40,8 +40,8 @@ class CommentRepositoryTest {
     void setUp() {
 
         users = List.of(
-                userRepository.save(User.builder().name("1 user test").createdAt(LocalDateTime.now()).build()),
-                userRepository.save(User.builder().name("2 user test").createdAt(LocalDateTime.now()).build())
+                userRepository.save(User.builder().email("1user@mail.com").name("1 user test").password("1password").createdAt(LocalDateTime.now()).build()),
+                userRepository.save(User.builder().email("2user@mail.com").name("2 user test").password("2password").createdAt(LocalDateTime.now()).build())
         );
 
         posts = List.of(
