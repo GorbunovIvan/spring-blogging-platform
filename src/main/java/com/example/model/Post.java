@@ -37,7 +37,7 @@ public class Post {
     private LocalDateTime updatedAt;
 
     @ManyToOne(cascade = { CascadeType.REFRESH })
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     @NotNull(message = "user is empty")
     private User user;
 
