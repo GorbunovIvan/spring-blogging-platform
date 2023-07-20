@@ -34,6 +34,18 @@ class UserRepositoryTest {
     }
 
     @Test
+    void testFindByEmail() {
+
+        for (var user : users) {
+            var userOpt = userRepository.findByEmail(user.getEmail());
+            assertTrue(userOpt.isPresent());
+            assertEquals(user, userOpt.get());
+        }
+
+        assertTrue(userRepository.findByEmail("none@mail.com").isEmpty());
+    }
+
+    @Test
     void testFindByIdEagerly() {
 
         for (var user : users) {

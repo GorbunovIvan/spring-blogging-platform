@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,6 +44,7 @@ class UserServiceTest {
 
         Mockito.reset(userRepository);
 
+        when(userRepository.findByEmail("none@mail.com")).thenReturn(Optional.empty());
         when(userRepository.findAll()).thenReturn(users);
         when(userRepository.findById(-1L)).thenReturn(Optional.empty());
         when(userRepository.findByIdEagerly(-1L)).thenReturn(Optional.empty());
@@ -52,12 +54,25 @@ class UserServiceTest {
         doNothing().when(userRepository).deleteById(anyLong());
 
         for (var user : users) {
+            when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
             when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
             when(userRepository.findByIdEagerly(user.getId())).thenReturn(Optional.of(user));
             when(userRepository.findByIdWithSubscriptions(user.getId())).thenReturn(Optional.of(user));
             when(userRepository.existsById(user.getId())).thenReturn(true);
             when(userRepository.save(user)).thenReturn(user);
         }
+    }
+
+    @Test
+    void testLoadUserByUsername() {
+
+        for (var user : users) {
+            assertEquals(user, userService.loadUserByUsername(user.getEmail()));
+            verify(userRepository, times(1)).findByEmail(user.getEmail());
+        }
+
+        assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername("none@mail.com"));
+        verify(userRepository, times(1)).findByEmail("none@mail.com");
     }
 
     @Test

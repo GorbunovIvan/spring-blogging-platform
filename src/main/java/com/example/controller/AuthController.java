@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute @Valid UserDto userDto, BindingResult bindingResult) {
+    public String createUser(@ModelAttribute @Valid UserDto userDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "auth/register";

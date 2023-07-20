@@ -63,7 +63,7 @@ class UserControllerTest {
                 User.builder().id(3L).email("3user@mail.com").name("3 user test").password("3password").createdAt(LocalDateTime.now()).posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build()
         );
 
-        newUser = User.builder().id(4L).name("new user test").posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build();
+        newUser = User.builder().id(4L).email("newuser@mail.com").name("new user test").password("4password").posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build();
         currentUser = users.get(0);
 
         Mockito.reset(userService, subscriptionService, usersUtil);
