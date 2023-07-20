@@ -40,8 +40,8 @@ class PostServiceTest {
     void setUp() {
 
         users = List.of(
-                User.builder().id(1L).name("1 user test").createdAt(LocalDateTime.now()).build(),
-                User.builder().id(2L).name("2 user test").createdAt(LocalDateTime.now()).build()
+                User.builder().id(1L).email("1user@mail.com").name("1 user test").password("1password").createdAt(LocalDateTime.now()).build(),
+                User.builder().id(2L).email("2user@mail.com").name("2 user test").password("2password").createdAt(LocalDateTime.now()).build()
         );
 
         posts = List.of(

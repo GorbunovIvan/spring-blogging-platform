@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.model.Subscription;
 import com.example.model.User;
 import com.example.service.UserService;
+import com.example.utils.security.UsersUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -30,19 +33,31 @@ class SubscriberControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private WebApplicationContext context;
+
     @MockBean
     private UserService userService;
+    @MockBean
+    private UsersUtil usersUtil;
 
     private List<User> users;
     private List<Subscription> subscriptions;
 
+    private User currentUser;
+
     @BeforeEach
     void setUp() {
 
+        // for security
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .build();
+
         users = List.of(
-                User.builder().id(1L).name("1 user test").createdAt(LocalDateTime.now()).posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build(),
-                User.builder().id(2L).name("2 user test").createdAt(LocalDateTime.now()).posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build(),
-                User.builder().id(3L).name("3 user test").createdAt(LocalDateTime.now()).posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build()
+                User.builder().id(1L).email("1user@mail.com").name("1 user test").password("1password").createdAt(LocalDateTime.now()).posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build(),
+                User.builder().id(2L).email("2user@mail.com").name("2 user test").password("2password").createdAt(LocalDateTime.now()).posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build(),
+                User.builder().id(3L).email("3user@mail.com").name("3 user test").password("3password").createdAt(LocalDateTime.now()).posts(new HashSet<>()).comments(new HashSet<>()).subscribers(new HashSet<>()).subscriptions(new HashSet<>()).build()
         );
 
         subscriptions = List.of(
@@ -62,13 +77,19 @@ class SubscriberControllerTest {
                     .collect(Collectors.toSet()));
         }
 
-        Mockito.reset(userService);
+        currentUser = users.get(0);
 
+        Mockito.reset(userService, usersUtil);
+
+        // userService
         when(userService.getByIdWithSubscriptions(-1L)).thenReturn(null);
 
         for (var user : users) {
             when(userService.getByIdWithSubscriptions(user.getId())).thenReturn(user);
         }
+
+        // usersUtil
+        when(usersUtil.getCurrentUser()).thenReturn(currentUser);
     }
 
     @Test

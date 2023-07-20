@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -45,6 +46,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User create(User user) {
+        if (user.getRoles() == null) {
+            user.setRoles(new HashSet<>());
+        }
         if (user.getRoles().isEmpty()) {
             user.addRole(Role.USER);
         }
