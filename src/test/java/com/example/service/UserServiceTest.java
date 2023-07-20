@@ -45,7 +45,7 @@ class UserServiceTest {
         Mockito.reset(userRepository);
 
         when(userRepository.findByEmail("none@mail.com")).thenReturn(Optional.empty());
-        when(userRepository.findAll()).thenReturn(users);
+        when(userRepository.findAllWithRoles()).thenReturn(users);
         when(userRepository.findById(-1L)).thenReturn(Optional.empty());
         when(userRepository.findByIdEagerly(-1L)).thenReturn(Optional.empty());
         when(userRepository.findByIdWithSubscriptions(-1L)).thenReturn(Optional.empty());
@@ -78,7 +78,7 @@ class UserServiceTest {
     @Test
     void testGetAll() {
         assertEquals(users, userService.getAll());
-        verify(userRepository, times(1)).findAll();
+        verify(userRepository, times(1)).findAllWithRoles();
     }
 
     @Test
