@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAll() {
-        return userRepository.findAll();
+        return userRepository.findAllWithRoles();
     }
 
     public User getById(Long id) {
