@@ -1,0 +1,39 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: blogging-platform-deployment
+  labels:
+    app: spring-blogging-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      project: spring-blogging-platform
+  template:
+    metadata:
+      labels:
+        project: spring-blogging-platform
+    spec:
+      containers:
+        - name: blogging-platform
+          image: ivangorbunovv/spring-blogging-platform-image:latest
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blogging-platform
+  labels:
+     env  : dev
+     owner: IvanGorbunov
+spec:
+  selector:
+    project: spring-blogging-platform
+  ports:
+    - name      : blogging-platform-listener
+      protocol  : TCP
+      port      : 8080
+      targetPort: 8080
+  #type: CLusterIP

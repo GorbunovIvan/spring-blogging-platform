@@ -1,0 +1,46 @@
+# Mysql Deployment
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: spring-blogging-platform-mysql
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      project: spring-blogging-platform-mysql
+  template:
+    metadata:
+      labels:
+        project: spring-blogging-platform-mysql
+    spec:
+      containers:
+        - name : mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "spring-blogging-platform"
+
+---
+# Mysql Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-db
+  labels:
+     env  : dev
+     owner: IvanGorbunov
+spec:
+  selector:
+    project: spring-blogging-platform-mysql
+  ports:
+    - name      : mysql-listener
+      protocol  : TCP
+      port      : 3306
+      targetPort: 3306
+  #type: CLusterIP
